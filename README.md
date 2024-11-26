@@ -10,6 +10,9 @@
 # Макет интерфейса
 https://www.figma.com/design/4oh4H4lFQ599BwRLdT73mN/Аудиторный фонд
 
+#
+Тестовая версия системы - https://classroom-fund-1dd97.web.app
+
 # ClassroomFund
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.12.
