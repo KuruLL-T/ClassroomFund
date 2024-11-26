@@ -1,0 +1,207 @@
+<div class="room-page">
+    <div class="tree-rooms">
+        <div class="tree-block">
+            <kendo-label class="filter-label" text="Филиал">
+                <kendo-multiselect class="tree-dropdown" 
+                    [data]="buildings" [(ngModel)]="listBuildings" [autoClose]="false"
+                    (valueChange)="applySelectRooms()" [clearButton]="true">
+                </kendo-multiselect>
+            </kendo-label>
+        </div>
+        <div class="tree-block">
+            <kendo-label class="filter-label" text="Тип аудитории">
+                <kendo-multiselect class="tree-dropdown" 
+                    [data]="types" [(ngModel)]="listTypes" [autoClose]="false"
+                    (valueChange)="applySelectRooms()" [clearButton]="true">
+                </kendo-multiselect>
+            </kendo-label>
+        </div>
+        <div class="tree-block">
+            <kendo-label class="filter-label" text="Назначение">
+                <kendo-multiselect class="tree-dropdown" 
+                    [data]="purposes" [(ngModel)]="listPurposes" [autoClose]="false"
+                    (valueChange)="applySelectRooms()" [clearButton]="true">
+                </kendo-multiselect>
+            </kendo-label>
+        </div>
+
+        <div class="tree-block">
+            <kendo-treeview [nodes]="data" textField="text"
+                kendoTreeViewHierarchyBinding childrenField="items"
+                kendoTreeViewExpandable [expandedKeys]="expandedKeys"
+                kendoTreeViewCheckable [(checkedKeys)]="checkedKeys" [kendoTreeViewCheckable]="checkableSettings"
+                [checkBy]="key" (change)="applySelectRooms()"
+            > 
+            <!-- Отображаем номер аудитории и копрус, вместо id -->
+            <ng-template kendoTreeViewNodeTemplate let-dataItem>
+                @if (dataItem.roomNumber) {
+                    <a class="toDetail" [routerLink]="['/room-detail', dataItem.text]" target="_blank">
+                        {{ dataItem.roomNumber }}
+                    </a>
+                } @else {
+                    <span class="building">{{ dataItem.text }}</span>
+                }
+            </ng-template>
+            </kendo-treeview>
+            <!-- <div class="example-config">
+                Selected keys: {{ checkedKeys.join(",") }}
+            </div> -->
+        </div>
+    </div>
+    <div class="main">
+        <h2 class="main-h2">Аудиторный фонд</h2>
+        <div class="filter-container">
+            <kendo-expansionpanel [expanded]="true" title="Все фильтры" subtitle="Аудиторий найдено: {{filteredRooms.length}}">
+                <div class="filter-buttons">
+                    <button class="clear-button" kendoButton (click)="clearFilters()">ОЧИСТИТЬ</button>
+                    <button class="apply-button" kendoButton (click)="applyFilters()" themeColor="primary">ПРИМЕНИТЬ</button>
+                </div>
+                <h3 class="filter-h">Основные характеристики</h3>
+                <div class="filter-container-block">
+                    
+                    <div class="filter-block">
+                        <kendo-label class="filter-label" text="Здание">
+                            <kendo-dropdownlist class="filter-dropdown" [data]="buildings" [(ngModel)]="buildingFilter"></kendo-dropdownlist>
+                        </kendo-label>
+                    </div>
+
+                    <div class="filter-block">
+                        <kendo-label class="filter-label" text="Тип аудитории">
+                            <kendo-dropdownlist class="filter-dropdown" [data]="types" [(ngModel)]="typeFilter"></kendo-dropdownlist>
+                        </kendo-label>
+                    </div>
+
+                    <div class="filter-block">
+                        <kendo-label class="filter-label" text="Назначение аудитории">
+                            <kendo-dropdownlist class="filter-dropdown" [data]="purposes" [(ngModel)]="purposeFilter"></kendo-dropdownlist>
+                        </kendo-label>
+                    </div>
+
+                    <div class="filter-block">
+                        <kendo-label class="filter-label" text="Номер">
+                            <kendo-textbox class="filter-input" [(ngModel)]="numberFilter" placeholder="Номер аудитории"></kendo-textbox>
+                        </kendo-label>
+                    </div>
+
+                    <div class="filter-block">
+                        <kendo-label class="filter-label" text="Владелец">
+                            <kendo-textbox class="filter-input" [(ngModel)]="ownerFilter" placeholder="Владелец аудитории"></kendo-textbox>
+                        </kendo-label>
+                    </div>
+
+                    <div class="filter-block">
+                        <kendo-label class="filter-label" text="Статус использования">
+                            <kendo-dropdownlist class="filter-dropdown" [data]="statuses" [(ngModel)]="statusFilter"></kendo-dropdownlist>
+                        </kendo-label>
+                    </div>
+                </div>
+
+                <h3 class="filter-h">Характеристики (учебные)</h3>
+                <div class="filter-container-block">
+                    <div class="filter-block">
+                        <kendo-label class="filter-label" text="Вместимость">
+                            <div class="doubleinput">
+                                <kendo-numerictextbox class="filter-input-FromTo" [(ngModel)]="capacityFilterFrom" format="1" [step]="5"></kendo-numerictextbox>
+                                <kendo-numerictextbox class="filter-input-FromTo" [(ngModel)]="capacityFilterTo" format="1" [step]="5"></kendo-numerictextbox>
+                            </div>
+                        </kendo-label>
+                    </div>
+                    <div class="filter-block">
+                        <kendo-label class="filter-label" text="Количество компьютеров">
+                            <div class="doubleinput">
+                                <kendo-numerictextbox class="filter-input-FromTo" [(ngModel)]="computerCountFilterFrom" format="1" [step]="1"></kendo-numerictextbox>
+                                <kendo-numerictextbox class="filter-input-FromTo" [(ngModel)]="computerCountFilterTo" format="1" [step]="1"></kendo-numerictextbox>
+                            </div>
+                        </kendo-label>
+                    </div>
+                    <div class="filter-block">
+                        <kendo-label class="filter-label" text="Wi-Fi">
+                            <kendo-dropdownlist class="filter-dropdown" [data]="hasWiFi" [(ngModel)]="hasWiFiFilter"></kendo-dropdownlist>
+                        </kendo-label>
+                    </div>
+                </div>
+                <h3 class="filter-h">Характеристики (инженерные)</h3>
+                <div class="filter-container-block">
+                    <div class="filter-block">
+                        <kendo-label class="filter-label" text="Площадь, кв. м.">
+                            <div class="doubleinput">
+                                <kendo-numerictextbox class="filter-input-FromTo" [(ngModel)]="areaFilterFrom" format="1" [step]="10"></kendo-numerictextbox>
+                                <kendo-numerictextbox class="filter-input-FromTo" [(ngModel)]="areaFilterTo" format="1" [step]="10"></kendo-numerictextbox>
+                            </div>
+                        </kendo-label>
+                    </div>
+                    <div class="filter-block">
+                        <kendo-label class="filter-label" text="Дата ремонта">
+                            <div class="doubleinput">
+                                <kendo-daterange >
+                                    <kendo-datepicker class="filter-date" [(ngModel)]="lastRenovationDateStart" placeholder="с"></kendo-datepicker>
+                                    <kendo-datepicker class="filter-date" [(ngModel)]="lastRenovationDateEnd" placeholder="по"></kendo-datepicker>
+                                </kendo-daterange>
+                            </div>
+                        </kendo-label>
+                    </div>
+                    <div class="filter-block">
+                        <kendo-label class="filter-label" text="Наличие плана / фото аудитории">
+                            <kendo-dropdownlist class="filter-dropdown" [data]="hasFoto" [(ngModel)]="hasFotoFilter"></kendo-dropdownlist>
+                        </kendo-label>
+                    </div>
+                </div>
+                <div class="filter-buttons">
+                    <button class="clear-button" kendoButton (click)="clearFilters()">ОЧИСТИТЬ</button>
+                    <button class="apply-button" kendoButton (click)="applyFilters()" themeColor="primary">ПРИМЕНИТЬ</button>
+                </div>
+            </kendo-expansionpanel>
+        </div>
+        <div class="setting-buttons">
+            <button class="reset-button" kendoButton [svgIcon]="xSVG" (click)="resetColumnSettings()">Сбросить список</button>
+            <button class="tune-button" kendoButton [svgIcon]="gearSVG" (click)="open()">Настроить список</button>
+        </div>
+        @if(opened){<kendo-dialog title="Настроить столбцы" (close)="close()" [minWidth]="250" [width]="450">
+            @for (column of columns; track $index) {
+                <div>
+                <label>
+                    <input type="checkbox" [(ngModel)]="tempColumnVisibility[column.field]">
+                    {{ column.title }}
+                </label>
+                </div>
+            }
+            <kendo-dialog-actions>
+                <button kendoButton themeColor="primary" (click)="applyColumnSettings()" (click)="close()">Подтвердить</button>
+            </kendo-dialog-actions>
+        </kendo-dialog>}
+        <div class="room-list">
+            <kendo-treelist [data]="displayedRooms" [height]="496" [pageable]="true">
+                <kendo-treelist-messages
+                    pagerOf="из"
+                    pagerItemsPerPage="на странице"
+                ></kendo-treelist-messages>
+                <ng-template kendoTreeListToolbarTemplate>
+                    <button kendoTreeListExcelCommand [svgIcon]="fileExcelIcon">Скачать Excel</button>
+                </ng-template>
+                <kendo-treelist-column field="index" [width]="70" title="№ п/п" [headerStyle]="{ 'text-align': 'center', 'color': '#0000008A' }" [style]="{ 'text-align': 'center' }">
+                    <ng-template kendoTreeListCellTemplate let-dataItem>
+                        {{ dataItem.index }}
+                    </ng-template>
+                </kendo-treelist-column>
+                @for (column of columns; track $index) {
+                <kendo-treelist-column 
+                    [field]="column.field" 
+                    [title]="column.title" 
+                    [headerStyle]="{ 'text-align': 'center', 'color': '#0000008A' }" 
+                    [style]="{ 'text-align': column.field === 'purpose' ? 'left' : 'center' }"
+                    [hidden]="!columnsVisibility[column.field]">
+                </kendo-treelist-column>}
+                <ng-template kendoPagerTemplate>
+                    <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+                    <kendo-pager-numeric-buttons [buttonCount]="5"></kendo-pager-numeric-buttons>
+                    <kendo-pager-next-buttons></kendo-pager-next-buttons>
+                    <kendo-pager-spacer></kendo-pager-spacer>
+                    <kendo-pager-page-sizes [pageSizes]="[10, 20, 40]"></kendo-pager-page-sizes>
+                    <kendo-pager-spacer></kendo-pager-spacer>
+                    <kendo-pager-info></kendo-pager-info> 
+                </ng-template>
+                <kendo-treelist-excel fileName="ClassRooms.xlsx"></kendo-treelist-excel>
+            </kendo-treelist>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+.room-card {
+    padding: 20px;
+    background-color:  #F5F5F5;
+    border: 1px solid #FDFDFD;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+.header{
+    color: #292929; 
+    font-size: 2em;; 
+    font-family: Montserrat SemiBold; 
+    font-weight: 600; 
+    word-wrap: break-word
+}
+.second-header {
+    color: #353535; 
+    font-size: 1.5em; 
+    font-family: Montserrat SemiBold; 
+    font-weight: 600; 
+    word-wrap: break-word;  
+    margin-top: 30px;
+}
+.block {
+    display: grid;
+    grid-template-columns: auto;
+    gap: 10px;               
+    margin: 10px 0;
+}
+.title {
+    color: #292929;
+    font-size: 16px;
+    font-family: Montserrat;
+    font-weight: 500;
+    line-height: 21px;
+    word-wrap: break-word;
+    flex: 1 0 30%;      
+    font-weight: bold; 
+}
+.text {
+    display: inline; 
+    color: #777;  
+    font-size: 16px; 
+    font-family: Montserrat; 
+    font-weight: 500; 
+    line-height: 21px; 
+    word-wrap: break-word;
+    flex: 1;         
+    margin: 0 10px;
+
+}
+.returnBack{
+    background-color: #FFFFFF;
+    border: 1px;
+    border-radius: 4px;
+    box-shadow: 0px 3px 4px 0px #00000040;
+    margin-top: 15px;
+    font-family: Montserrat;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 1.25px;
+    text-align: center;   
+}

@@ -1,0 +1,102 @@
+<div class="room-card">
+    @if (roomDetail) {
+    <h1 class="header">Аудитория № {{ roomDetail.number }}</h1>
+    <div>
+    <h2 class="second-header">Основные характеристики:</h2>
+        <div class="block">
+            <div class="title">Название 
+                <div class="text">
+                    {{ roomDetail.name }}
+                </div>
+            </div>
+            <div class="title">Тип 
+                <div class="text">
+                    {{ roomDetail.type.name }}
+                </div>
+            </div>
+            <div class="title">Назначение 
+                <div class="text">
+                    {{ roomDetail.purpose[0].name }}
+                </div>
+            </div>
+            <div class="title">Владелец 
+                <div class="text">
+                    {{ roomDetail.owner.name }}
+                </div>
+            </div>
+            <div class="title">Статус 
+                <div class="text">
+                    {{ roomDetail.status.name }}
+                </div>
+            </div>
+        </div>
+        <h2 class="second-header">Дополнительные характеристики:</h2>
+        <div class="block">
+            <div class="title">Вместимость 
+                <div class="text">
+                    {{ roomDetail.additionalSections[0].capacity }} 
+                </div>человек
+            </div>
+            <div class="title">Количество компьютеров
+                <div class="text">
+                    {{ roomDetail.additionalSections[0].computerCount }}
+                </div>шт.
+            </div>
+            <div class="title">Количество специального оборудования 
+                <div class="text">
+                    {{ roomDetail.additionalSections[0].specialEquipmentCount }}
+                </div>шт.
+            </div>
+            <div class="title">Проектор 
+                <div class="text">
+                    {{ roomDetail.additionalSections[0].hasProjector ? 'есть' : 'нет' }}
+                </div>
+            </div>
+            <div class="title">Интернет 
+                <div class="text">
+                    {{ roomDetail.additionalSections[0].hasWiredNetwork ? 'есть' : 'нет' }}
+                </div>
+            </div>
+            <div class="title">Экран 
+                <div class="text">
+                    {{ roomDetail.additionalSections[0].hasScreen ? 'есть' : 'нет' }}
+                </div>
+            </div>
+            <div class="title">Доска 
+                <div class="text">
+                    {{ roomDetail.additionalSections[0].hasBoard ? 'есть' : 'нет' }}
+                </div>
+            </div>
+            <div class="title">Переносное оборудование 
+                <div class="text">
+                    {{ roomDetail.additionalSections[0].portableEquipment}}
+                </div>
+            </div>
+            <div class="title">WiFi 
+                <div class="text">
+                    {{ roomDetail.additionalSections[0].hasWiFi ? 'есть' : 'нет' }}
+                </div>
+            </div>
+        </div>
+        <h2 class="second-header">Инженерные характеристики:</h2>
+        <div class="block">
+            <div class="title">Площадь аудитории, м<sup>2</sup> 
+                <div class="text">
+                    {{ roomDetail.additionalSections[0].area }}
+                </div>
+            </div>
+            <div class="title">Дата последнего ремонта 
+                <div class="text">
+                    {{ roomDetail.additionalSections[0].lastRenovationDate | date: 'dd-MM-yyyy' }}
+                </div>
+            </div>
+            <div class="title">Наличие плана / фото аудитории 
+                <div class="text">
+                    {{ roomDetail.additionalSections[0].hasFoto ? 'есть' : 'нет' }}
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    <button kendoButton class="returnBack" (click)="returnBack()">Возврат к списку</button>
+</div>
